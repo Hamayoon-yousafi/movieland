@@ -125,3 +125,5 @@ dmypy.json
 # Editor Specific
 .vscode
 .DS_Store
+
+/uploads

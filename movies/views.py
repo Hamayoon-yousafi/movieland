@@ -1,16 +1,26 @@
+from django.forms.models import BaseModelForm
+from django.http import HttpResponse
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
-from .models import Movie, MovieGenre
-from .forms import MovieForm
+from .models import Movie, MovieGenre, MovieTag, Review
+from .forms import MovieForm, ReviewForm
 from django.urls import reverse_lazy
+from django.shortcuts import render, redirect
 
 class MoviesList(ListView):
     model = Movie
     context_object_name = 'movies'
-    paginate_by = 20
+    paginate_by = 20 
+
 
 class MovieDetails(DetailView):
     model = Movie
     context_object_name = 'movie'
+
+    def get_context_data(self, *args, **kwargs):
+        context = super().get_context_data(*args, **kwargs)
+        reviews = self.object.review_set.all()
+        context.update({'review_form': ReviewForm(), 'reviews': reviews, 'reviewers': reviews.values_list('user_id', flat=True)})
+        return context
 
 class MovieCreate(CreateView):
     model = Movie
@@ -28,23 +38,74 @@ class MovieDelete(DeleteView):
     model = Movie
     success_url = reverse_lazy('movies')
 
+
+# Review Views
+class CreateReview(CreateView):
+    model = Review
+    form_class = ReviewForm
+    
+    def get_success_url(self):
+        return reverse_lazy('movie-details', kwargs={'pk': self.kwargs['movie_id']})
+    
+    def form_valid(self, form):
+        form.instance.movie_id = Movie.objects.get(pk=self.kwargs['movie_id'])
+        form.instance.user_id = self.request.user
+        return super().form_valid(form)
+    
+    def form_invalid(self, form):
+        return redirect('movie-details', pk=self.kwargs['movie_id'])
+
 # genre views
 class GenreListCreate(CreateView):
     model = MovieGenre
     success_url = reverse_lazy('genre-list-create')
-    template_name = 'movies/genre_list_create.html'
+    template_name = 'movies/configuration_list_create.html'
+    fields = 'name',
+
+    def get_context_data(self, *args, **kwargs):
+        context = super().get_context_data(*args, **kwargs) 
+        context.update({'objects': MovieGenre.objects.all(), 'configuration': 'Genres'})
+        return context
+    
+class GenreUpdate(UpdateView):
+    model = MovieGenre
+    success_url = reverse_lazy('genre-list-create')
+    template_name = 'movies/configuration_list_create.html'
     fields = 'name',
 
     def get_context_data(self, *args, **kwargs):
         context = super().get_context_data(*args, **kwargs)
-        context.update({'genres': MovieGenre.objects.all()})
+        context.update({'objects': MovieGenre.objects.all(), 'configuration': 'Genres'})
         return context
-
-class GenreUpdate(UpdateView):
-    model = MovieGenre
-    success_url = reverse_lazy('genre-list-create')
-    fields = 'name',
-
+    
 class GenreDelete(DeleteView):
     model = MovieGenre
-    success_url = reverse_lazy('movie-list-create')
+    success_url = reverse_lazy('genre-list-create')
+
+
+# tag views
+class TagListCreate(CreateView):
+    model = MovieTag
+    success_url = reverse_lazy('tag-list-create')
+    template_name = 'movies/configuration_list_create.html'
+    fields = 'name',
+
+    def get_context_data(self, *args, **kwargs):
+        context = super().get_context_data(*args, **kwargs)
+        context.update({'objects': MovieTag.objects.all(), 'configuration': 'Tags'})
+        return context
+
+class TagUpdate(UpdateView):
+    model = MovieTag
+    success_url = reverse_lazy('tag-list-create')
+    template_name = 'movies/configuration_list_create.html'
+    fields = 'name',
+
+    def get_context_data(self, *args, **kwargs):
+        context = super().get_context_data(*args, **kwargs)
+        context.update({'objects': MovieTag.objects.all(), 'configuration': 'Tags'})
+        return context
+
+class TagDelete(DeleteView):
+    model = MovieTag
+    success_url = reverse_lazy('tag-list-create')

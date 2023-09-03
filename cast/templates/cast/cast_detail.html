@@ -1,0 +1,16 @@
+{% extends 'main.html' %}
+
+{% block title %} {{ cast.name }} {% endblock %}
+
+
+{% block content %}
+    <h3>{{ cast.name }}</h3>
+
+    <img src="{{ cast.picture.url }}">
+
+    <a href="{% url 'cast-update' cast.id %}">Update</a>
+    <form action="{% url 'cast-delete' cast.id %}" method="POST">
+        {% csrf_token %}
+        <input type="submit" value="Delete {{ cast.name }}">
+    </form>
+{% endblock %}

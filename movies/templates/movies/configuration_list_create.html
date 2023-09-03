@@ -1,0 +1,25 @@
+{% extends 'main.html' %}
+
+{% block title %}{{ configuration }}{% endblock %}
+
+
+{% block content %}
+    <h3>{{ configuration }}</h3>
+    <form method="POST">
+        {% csrf_token %}
+        {{ form }}
+        <input type="submit" value="Save">
+    </form>
+
+    {% for object in objects %}
+        <form action="{{ object.get_update_url }}" method="POST">
+            {% csrf_token %}
+            <input type="text" value="{{ object.name }}" name="name"/>
+            <input type="submit" value="Update">
+        </form>
+        <form action="{{ object.get_delete_url }}" method="POST">
+            {% csrf_token %}
+            <input type="submit" name="" value="Delete">
+        </form>
+    {% endfor %}
+{% endblock %}

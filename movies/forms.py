@@ -1,5 +1,5 @@
 from django import forms 
-from .models import Movie
+from .models import Movie, Review
 
 
 class MovieForm(forms.ModelForm):
@@ -13,3 +13,9 @@ class MovieForm(forms.ModelForm):
             'tag_ids': forms.CheckboxSelectMultiple(),
             'genre_ids': forms.CheckboxSelectMultiple(),
         }
+
+
+class ReviewForm(forms.ModelForm):
+    class Meta:
+        model = Review
+        exclude = 'user_id', 'movie_id'

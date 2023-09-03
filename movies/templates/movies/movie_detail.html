@@ -6,14 +6,36 @@
 {% block content %}
     <h3>{{ movie.title }}</h3>
 
-    <video width="320" height="240" controls poster="{{ movie.thumbnail.url }}">
-        <source src="{{ movie.movie_file.url }}" type="video/mp4" >
-        Your browser does not support the video tag.
-    </video>
-
-    <a href="{% url 'movie-update' movie.id %}">Update</a>
-    <form action="{% url 'movie-delete' movie.id %}" method="POST">
-        {% csrf_token %}
-        <input type="submit" value="Delete {{ movie.title }}">
-    </form>
+    <div class="row">
+        <div class="col">
+            <video width="320" height="240" controls poster="{{ movie.thumbnail.url }}">
+                <source src="{{ movie.movie_file.url }}" type="video/mp4" >
+                Your browser does not support the video tag.
+            </video>
+        
+            <a href="{% url 'movie-update' movie.id %}">Update</a>
+            <form action="{% url 'movie-delete' movie.id %}" method="POST">
+                {% csrf_token %}
+                <input type="submit" value="Delete {{ movie.title }}">
+            </form>
+        </div>
+        <div class="col">
+            {% if request.user.id in reviewers %}
+                <p>You have reviewed this movie.</p> 
+            {% else %}
+                <form action="{% url 'review-create' movie.id %}" method="POST">
+                    {% csrf_token %}
+                    {{ review_form.as_p }}
+                    <input type="submit" name="" value="Add Review">
+                </form>
+            {% endif %}
+            
+            {% for review in reviews %}
+                <p>
+                    <strong>{{ review.user_id.username }}</strong>, {{ review.created }}
+                    <br>{{ review.body }} - {{ review.vote }}
+                </p>
+            {% endfor %}
+        </div>
+    </div>
 {% endblock %}

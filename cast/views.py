@@ -7,7 +7,7 @@ from .forms import CastForm
 
 class CastList(ListView):
     model = Cast
-    pasginate_by = 20
+    paginate_by = 20
     context_object_name = 'casts'
 
 

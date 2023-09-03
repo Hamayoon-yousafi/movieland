@@ -53,7 +53,15 @@ class CreateReview(CreateView):
         return super().form_valid(form)
     
     def form_invalid(self, form):
-        return redirect('movie-details', pk=self.kwargs['movie_id'])
+        movie = Movie.objects.get(pk=self.kwargs['movie_id'])
+        reviews = movie.review_set.all()
+        return render(self.request, 'movies/movie_detail.html', {
+            'review_form': form,
+            'movie': movie,
+            'reviews': movie.review_set.all(),
+            'reviewers': reviews.values_list('user_id', flat=True)
+        })
+
 
 # genre views
 class GenreListCreate(CreateView):

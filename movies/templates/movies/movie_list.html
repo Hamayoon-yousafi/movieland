@@ -4,11 +4,23 @@
 
 
 {% block content %}
+    <form>
+        <input type="text" name="search" value="{{ search }}"/>
+        <input type="submit" value="Search" />
+    </form>
+    <a href="{% url 'movies' %}?upcoming=True" class="{% if upcoming %} bg-danger {% endif %}">Upcoming</a>
+    <a href="{% url 'movies' %}">X</a>
     <h3>Movies</h3>
     <a href="{% url 'movie-create' %}">Create Movie</a>
-    {% for movie in movies  %}
+    {% if not movies %}
+        <p>No Movies were found!</p>
+    {% endif %}
+    {% for movie in movies %}
         <p>
             <a href="{% url 'movie-details' movie.id %}">{{ movie.title }}</a>
+            {% if movie.release_date > current_date %}
+                Coming on {{ movie.release_date }}
+            {% endif %}
         </p>
     {% endfor %}
 

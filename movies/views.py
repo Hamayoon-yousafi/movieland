@@ -1,15 +1,41 @@
-from django.forms.models import BaseModelForm
-from django.http import HttpResponse
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from .models import Movie, MovieGenre, MovieTag, Review
 from .forms import MovieForm, ReviewForm
 from django.urls import reverse_lazy
-from django.shortcuts import render, redirect
+from django.shortcuts import redirect
+from django.db.models import Q
+from datetime import date
 
 class MoviesList(ListView):
     model = Movie
     context_object_name = 'movies'
-    paginate_by = 20 
+    paginate_by = 20
+
+    def get_context_data(self, **kwargs):
+        context =  super().get_context_data(**kwargs)
+        context.update({
+            'search': self.search,
+            'current_date': date.today(),
+            'upcoming': self.upcoming
+        })
+        return context
+
+    def get_queryset(self):
+        self.search = self.request.GET.get('search', '').strip()
+        self.upcoming = self.request.GET.get('upcoming', '').strip()
+        
+        query = super().get_queryset()
+        if self.search:
+            query = query.filter(
+                Q(title__icontains=self.search) | 
+                Q(story__icontains=self.search) | 
+                Q(cast_ids__name__icontains=self.search) |
+                Q(tag_ids__name__icontains=self.search) |
+                Q(genre_ids__name__icontains=self.search)
+            )
+        if self.upcoming:
+            query = query.filter(release_date__gt=date.today())
+        return query
 
 
 class MovieDetails(DetailView):

@@ -5,7 +5,7 @@
 
 {% block content %}
     <h3>Cast</h3>
-    <!-- <a href="{% url 'movie-create' %}">Create Movie</a> -->
+    <a href="{% url 'cast-create' %}">Create Cast</a>
     {% for cast in casts %}
         <p>
             <a href="{% url 'cast-details' cast.id %}">{{ cast.name }}</a>

@@ -22,6 +22,8 @@
         <div class="col">
             {% if request.user.id in reviewers %}
                 <p>You have reviewed this movie.</p> 
+            {% elif not request.user.is_authenticated %}
+                <p>Login to leave a review.</p>
             {% else %}
                 <form action="{% url 'review-create' movie.id %}" method="POST">
                     {% csrf_token %}

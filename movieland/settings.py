@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     # installed apps
     'movies.apps.MoviesConfig',
     'cast.apps.CastConfig',
+    'user.apps.UserConfig',
 ]
 
 MIDDLEWARE = [
@@ -131,3 +132,5 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 MEDIA_ROOT = BASE_DIR / 'uploads'
 MEDIA_URL = '/files/'
+
+LOGIN_URL = 'login'

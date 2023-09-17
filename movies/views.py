@@ -2,9 +2,9 @@ from django.views.generic import ListView, DetailView, CreateView, UpdateView, D
 from .models import Movie, MovieGenre, MovieTag, Review
 from .forms import MovieForm, ReviewForm
 from django.urls import reverse_lazy
-from django.shortcuts import redirect
 from django.db.models import Q
 from datetime import date
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 class MoviesList(ListView):
     model = Movie
@@ -48,12 +48,12 @@ class MovieDetails(DetailView):
         context.update({'review_form': ReviewForm(), 'reviews': reviews, 'reviewers': reviews.values_list('user_id', flat=True)})
         return context
 
-class MovieCreate(CreateView):
+class MovieCreate(LoginRequiredMixin, CreateView):
     model = Movie
     form_class = MovieForm
     success_url = reverse_lazy('movies')
 
-class MovieUpdate(UpdateView):
+class MovieUpdate(LoginRequiredMixin, UpdateView):
     model = Movie
     form_class = MovieForm
 
@@ -66,7 +66,7 @@ class MovieDelete(DeleteView):
 
 
 # Review Views
-class CreateReview(CreateView):
+class CreateReview(LoginRequiredMixin, CreateView):
     model = Review
     form_class = ReviewForm
     

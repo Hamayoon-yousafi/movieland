@@ -4,7 +4,7 @@ from .forms import MovieForm, ReviewForm
 from django.urls import reverse_lazy
 from django.db.models import Q
 from datetime import date
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 
 class MoviesList(ListView):
     model = Movie
@@ -48,10 +48,11 @@ class MovieDetails(DetailView):
         context.update({'review_form': ReviewForm(), 'reviews': reviews, 'reviewers': reviews.values_list('user_id', flat=True)})
         return context
 
-class MovieCreate(LoginRequiredMixin, CreateView):
+class MovieCreate(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
     model = Movie
     form_class = MovieForm
     success_url = reverse_lazy('movies')
+    permission_required = 'movies.add_movie' 
 
 class MovieUpdate(LoginRequiredMixin, UpdateView):
     model = Movie

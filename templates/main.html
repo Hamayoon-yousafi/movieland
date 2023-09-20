@@ -15,7 +15,14 @@
     {% else %}
         <h5><a href="{% url 'login' %}">Login</a></h5>   
         <h5><a href="{% url 'register' %}">Register</a></h5>   
-    {% endif %} 
+    {% endif %}
+    {% if perms.tag.view_tag %}
+        <a href="{% url 'tag-list-create' %}">Tags</a>
+    {% endif %}
+    {% if perms.genre.view_genre %}
+        <a href="{% url 'genre-list-create' %}">Genres</a>
+    {% endif %}
+    
     {% block content %}
     {% endblock content %}
 </body>

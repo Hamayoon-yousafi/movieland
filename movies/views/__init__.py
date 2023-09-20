@@ -1,0 +1,1 @@
+from . import genre_views, movie_views, review_views, tag_views

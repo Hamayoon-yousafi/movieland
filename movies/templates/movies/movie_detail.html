@@ -36,6 +36,13 @@
                 <p>
                     <strong>{{ review.user_id.username }}</strong>, {{ review.created }}
                     <br>{{ review.body }} - {{ review.vote }}
+                    <br/>
+                    {% if review.user_id == request.user or request.user.is_superuser %}
+                        <form action="{% url 'review-delete' movie_id=movie.id pk=review.id %}" method="POST">
+                            {% csrf_token %}
+                            <input type="submit" value="Delete">
+                        </form>
+                    {% endif %}
                 </p>
             {% endfor %}
         </div>

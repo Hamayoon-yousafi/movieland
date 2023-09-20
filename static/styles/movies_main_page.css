@@ -1,6 +1,16 @@
 .cover {
-    height: 520px;
+    height: 450px;
     background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url(../img/movies.jpg);
     background-attachment: fixed;
     background-position: center;
+}
+
+#search-movies-input {
+    background: #00000094;
+    color: white;
+    border: solid white 1px;
+}
+
+#search-movies-input::placeholder {
+    color: rgb(211, 211, 211);
 }

@@ -1,0 +1,18 @@
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@200;300&family=Roboto:wght@300;500&family=Skranji&display=swap');
+
+body {
+    background-color: black !important;
+}
+
+#logo {
+    color: white;
+    text-decoration: none;
+    font-family: 'Skranji', cursive;
+    font-size: 26px;
+}
+
+.nav {
+    position: fixed;
+    background: #00000014;
+    width: 100%;
+}

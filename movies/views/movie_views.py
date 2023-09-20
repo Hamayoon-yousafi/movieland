@@ -27,7 +27,7 @@ class MoviesList(ListView):
         
         query = super().get_queryset()
         if self.search:
-            query = query.filter(
+            query = query.distinct().filter(
                 Q(title__icontains=self.search) | 
                 Q(story__icontains=self.search) | 
                 Q(cast_ids__name__icontains=self.search) |

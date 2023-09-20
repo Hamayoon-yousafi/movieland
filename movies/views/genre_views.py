@@ -1,9 +1,7 @@
-from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
+from django.views.generic import CreateView, UpdateView, DeleteView
 from ..models import MovieGenre
 from django.urls import reverse_lazy
-from django.db.models import Q
-from datetime import date
-from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
+from django.contrib.auth.mixins import PermissionRequiredMixin
 
 
 

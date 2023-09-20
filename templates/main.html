@@ -16,13 +16,13 @@
         <h5><a href="{% url 'login' %}">Login</a></h5>   
         <h5><a href="{% url 'register' %}">Register</a></h5>   
     {% endif %}
-    {% if perms.tag.view_tag %}
+    {% if perms.movies.view_tag %}
         <a href="{% url 'tag-list-create' %}">Tags</a>
     {% endif %}
-    {% if perms.genre.view_genre %}
+    {% if perms.movies.view_genre %}
         <a href="{% url 'genre-list-create' %}">Genres</a>
     {% endif %}
-    
+
     {% block content %}
     {% endblock content %}
 </body>

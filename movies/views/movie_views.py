@@ -5,6 +5,7 @@ from django.urls import reverse_lazy
 from django.db.models import Q
 from datetime import date
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
+from datetime import datetime
 
 
 class MoviesList(ListView):
@@ -17,7 +18,9 @@ class MoviesList(ListView):
         context.update({
             'search': self.search,
             'current_date': date.today(),
-            'upcoming': self.upcoming
+            'upcoming': self.upcoming,
+            'upcoming_movies': self.get_queryset().filter(release_date__gt=date.today()).order_by('release_date'),
+            'top_three_this_month': self.get_queryset().filter(release_date__year=datetime.now().year, release_date__month=datetime.now().month).order_by('-total_positive_votes')[:3],
         })
         return context
 

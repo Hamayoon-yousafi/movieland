@@ -1,5 +1,4 @@
 {% extends 'main.html' %}
-
 {% load static %}
 
 {% block title %}Movies{% endblock %}
@@ -8,9 +7,63 @@
 {% block content %}
     <div class="cover d-flex justify-content-center align-items-center">
         <form class="d-flex flex-column justify-content-center align-items-center" style="width: 30%;">
-            <input type="text" name="search" value="{{ search }}" class="form-control p-2" id="search-movies-input" placeholder="Search MovieLAND" />
+            <input type="text" name="search" value="{{ search }}" class="form-control p-2" id="search-movies-input" placeholder="Search Movieland" />
             <input type="submit" value="Search" class="btn btn-dark mt-2 m-auto" />
         </form>
+    </div>
+
+    <div class="container">
+        <div class="featured-movies mt-5">
+            <h2 class="text-white text-center m-4">Upcoming movies...</h2>
+            <div id="carouselExampleCaptions" class="carousel slide" data-bs-ride="carousel">
+                <div class="carousel-inner">
+                    {% for movie in upcoming_movies  %}
+                        <div class="carousel-item {% if movie == upcoming_movies.first %} active {% endif %}">
+                            <img src="{{ movie.thumbnail.url }}" class="carousel-img d-block w-100" alt="...">
+                            <div class="carousel-caption d-none d-md-block">
+                                <h5>{{ movie.title }}</h5>
+                                <p>{{ movie.release_date }}</p>
+                            </div>
+                        </div>
+                    {% endfor %}
+                  </div>
+                <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="prev">
+                  <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                  <span class="visually-hidden">Previous</span>
+                </button>
+                <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="next">
+                  <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                  <span class="visually-hidden">Next</span>
+                </button>
+            </div>
+        </div>
+
+        <div class="album py-5 bg-transparent mt-5">
+        
+            <h2 class="text-white text-center mb-4">{% now "F" %}'s top 3</h2>
+              <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+                {% for movie in top_three_this_month %}
+                    <div class="col">
+                        <div class="card shadow-sm border-0">
+                        <img class="bd-placeholder-img card-img-top" width="100%" height="225" src="{{ movie.thumbnail.url }}" role="img"/>
+            
+                        <div class="card-body bg-dark">
+                            <h5 class="text-white">{{ movie.title }}</h5>
+                            <p class="card-text color-darker">{{ movie.story|slice:"140" }}...</p>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div class="d-flex align-items-center">
+                                    <small class="color-darker me-2"><i class="fa-regular fa-heart"></i> {{ movie.total_positive_votes }}</small>
+                                    <small class="color-darker"><i class="fa-regular fa-thumbs-down"></i> {{ movie.total_negative_votes }}</small>
+                                </div>
+                                <small class="color-darker"><i class="fa-regular fa-calendar me-1"></i> {{ movie.release_date }}</small>
+                            </div>
+                        </div>
+                        </div>
+                    </div>
+                {% endfor %} 
+              </div>
+          </div>
+
     </div>
 
     

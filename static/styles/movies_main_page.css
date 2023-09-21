@@ -8,9 +8,28 @@
 #search-movies-input {
     background: #00000094;
     color: white;
-    border: solid white 1px;
+    border: solid rgba(255, 255, 255, 0.438) 1px;
+}
+
+#search-movies-input:focus {
+    outline: none !important;
 }
 
 #search-movies-input::placeholder {
     color: rgb(211, 211, 211);
+}
+
+.carousel-img {
+    height: 750px !important;
+}
+
+.carousel-text {
+    background-color: #000000bf;
+    width: 100%;
+    padding: 10px;
+    border-radius: 10px;
+}
+
+.color-darker {
+    color: #b1b1b1 !important;
 }

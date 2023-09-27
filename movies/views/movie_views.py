@@ -2,7 +2,7 @@ from django.views.generic import ListView, DetailView, CreateView, UpdateView, D
 from ..models import Movie
 from ..forms import MovieForm, ReviewForm
 from django.urls import reverse_lazy
-from django.db.models import Q
+from django.db.models import Q, Count
 from datetime import date
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from datetime import datetime
@@ -20,7 +20,10 @@ class MoviesList(ListView):
             'current_date': date.today(),
             'upcoming': self.upcoming,
             'upcoming_movies': self.get_queryset().filter(release_date__gt=date.today()).order_by('release_date'),
-            'top_three_this_month': self.get_queryset().filter(release_date__year=datetime.now().year, release_date__month=datetime.now().month).order_by('-total_positive_votes')[:3],
+            'top_this_month': self.get_queryset().filter(release_date__year=datetime.now().year, release_date__month=datetime.now().month).order_by('-total_positive_votes')[:3],
+            'movies_for_you': self.get_queryset().filter(genre_ids__name=self.request.user.profile.favorite_genre.name).order_by('-release_date')[:20] if self.request.user.profile.favorite_genre else None,
+            'being_discussed': Movie.objects.annotate(num_reviews=Count('review')).order_by('-num_reviews', '-release_date')[:20],
+            'popular': self.get_queryset().order_by('-total_positive_votes', '-release_date')[:20],
         })
         return context
 

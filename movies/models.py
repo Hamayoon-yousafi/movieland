@@ -43,7 +43,7 @@ class Review(models.Model):
         return super().save(*args, **kwargs)
 
     def __str__(self):
-        return self.vote
+        return f'{self.vote} | {self.movie_id}'
     
     class Meta:
         unique_together = [['user_id', 'movie_id']]

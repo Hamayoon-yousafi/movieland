@@ -1,0 +1,6 @@
+<div class="cover d-flex justify-content-center align-items-center">
+    <form class="d-flex flex-column justify-content-center align-items-center" style="width: 30%;" action="{% url 'movies' %}">
+        <input type="text" name="search" value="{{ search }}" class="form-control p-2" id="search-movies-input" placeholder="Search movies by name, tag, genre or cast" />
+        <input type="submit" value="Search" class="btn btn-dark mt-2 m-auto" />
+    </form>
+</div>

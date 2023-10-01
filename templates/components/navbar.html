@@ -2,7 +2,7 @@
     <div class="container d-flex justify-content-between">
         <div class="nav-logo d-flex align-items-center">
             <a class="navbar-brand" id="logo" href="{% url 'home-page' %}">Movieland <i class="fa-solid fa-film"></i></a>
-            <a class="text-white ms-3 text-decoration-none" href="{% url 'movies' %}">All Movies</a>
+            <a class="text-white ms-4 text-decoration-none" href="{% url 'movies' %}">All Movies</a>
         </div>
         <div class="nav-user d-flex align-items-center">
             {% if request.user.is_authenticated %}

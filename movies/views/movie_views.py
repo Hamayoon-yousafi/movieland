@@ -1,5 +1,5 @@
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView, TemplateView
-from ..models import Movie
+from ..models import Movie, MovieGenre
 from ..forms import MovieForm, ReviewForm
 from django.urls import reverse_lazy
 from django.db.models import Q, Count
@@ -18,9 +18,11 @@ class MoviesHomePage(TemplateView):
             'current_date': date.today(),
             'upcoming_movies': movies.filter(release_date__gt=date.today()).order_by('release_date'),
             'top_this_month': movies.filter(release_date__year=datetime.now().year, release_date__month=datetime.now().month).order_by('-total_positive_votes')[:3],
-            'movies_for_you': movies.filter(genre_ids__name=self.request.user.profile.favorite_genre.name).order_by('-release_date')[:20] if self.request.user.profile.favorite_genre else None,
+            'movies_for_you': movies.filter(genre_ids__name=self.request.user.profile.favorite_genre.name).order_by('-release_date')[:20] 
+                if self.request.user.is_authenticated and self.request.user.profile.favorite_genre else None,
             'being_discussed': Movie.objects.annotate(num_reviews=Count('review')).order_by('-num_reviews', '-release_date')[:20],
             'popular': movies.order_by('-total_positive_votes', '-release_date')[:20],
+            'genres': MovieGenre.objects.all(),
         })
         return context
 

@@ -61,45 +61,46 @@
 
         </div>
     
-        {% if request.user.profile.favorite_genre %}
-            {% if movies_for_you %}
-                <div class="carousel-area mt-5" onmouseleave="carouselMouseLeaveEvent()" onmouseover="targetCarousel('forYouCarousel')">
-                    <h2 class="text-white text-center mb-4">Top picks for you</h2>
-                    <button class="carouselBTN btn text-white carousel-left" onclick="scrollCarousel('left')">
-                        <i class="fa-solid fa-angle-left text-lg"></i>
-                    </button>
-                    <div id="forYouCarousel" class="custom-carousel">
-                        {% for movie in movies_for_you %}
-                            <div class="custom-carousel-item">
-                                <div class="carousel-item-img">
-                                    <img src="{{ movie.poster.url }}">
-                                </div>
-                                <div class="carousel-item-body bg-dark">
-                                    <h6 class="text-white text-truncate" title="{{ movie.title }}">{{ movie.title }}</h6>
-                                    <div class="d-flex align-items-center mt-3">
-                                        <small class="color-darker me-2"><i class="fa-regular fa-heart"></i> {{ movie.total_positive_votes }}</small>
-                                        <small class="color-darker"><i class="fa-regular fa-thumbs-down"></i> {{ movie.total_negative_votes }}</small>
-                                    </div>
-                                </div>
-                                <div class="carousel-item-text-area">
-                                    <p class="carousel-item-text">
-                                        {{ movie.story }}
-                                    </p>
+        {% if movies_for_you %}
+            <div class="carousel-area mt-5" onmouseleave="carouselMouseLeaveEvent()" onmouseover="targetCarousel('forYouCarousel')">
+                <h2 class="text-white text-center mb-4">Top picks for you</h2>
+                <button class="carouselBTN btn text-white carousel-left" onclick="scrollCarousel('left')">
+                    <i class="fa-solid fa-angle-left text-lg"></i>
+                </button>
+                <div id="forYouCarousel" class="custom-carousel">
+                    {% for movie in movies_for_you %}
+                        <div class="custom-carousel-item">
+                            <div class="carousel-item-img">
+                                <img src="{{ movie.poster.url }}">
+                            </div>
+                            <div class="carousel-item-body bg-dark">
+                                <h6 class="text-white text-truncate" title="{{ movie.title }}">{{ movie.title }}</h6>
+                                <div class="d-flex align-items-center mt-3">
+                                    <small class="color-darker me-2"><i class="fa-regular fa-heart"></i> {{ movie.total_positive_votes }}</small>
+                                    <small class="color-darker"><i class="fa-regular fa-thumbs-down"></i> {{ movie.total_negative_votes }}</small>
                                 </div>
                             </div>
-                        {% endfor %}
-                    </div>
-                    <button class="carouselBTN btn text-white carousel-right" onclick="scrollCarousel('right')">
-                        <i class="fa-solid fa-angle-right text-lg"></i>
-                    </button>
+                            <div class="carousel-item-text-area">
+                                <p class="carousel-item-text">
+                                    {{ movie.story }}
+                                </p>
+                            </div>
+                        </div>
+                    {% endfor %}
                 </div>
-            {% endif %}
+                <button class="carouselBTN btn text-white carousel-right" onclick="scrollCarousel('right')">
+                    <i class="fa-solid fa-angle-right text-lg"></i>
+                </button>
+            </div>
         {% else %}
             <div class="favorite-genre mt-5">
                 <h2 class="text-white text-center mb-4">What's your favorite genre?</h2>
                 <div class="genres m-auto w-50">
                     <select class="form-control bg-dark text-white">
-                        <option value="">Action</option>
+                        <option value="" selected>Select...</option>
+                        {% for genre in genres %}
+                            <option value="{{ genre.id }}">{{ genre.name }}</option>
+                        {% endfor %}
                     </select>
                 </div>
             </div>

@@ -58,7 +58,6 @@
     padding: 15px;
     height: 100%;
     color: white;
-    transform: translate(0px, 420px);
     opacity: 0;
     transition: all ease-in-out 0.3s;
 }
@@ -72,7 +71,6 @@
 }
 
 .custom-carousel-item:hover .carousel-item-text-area {
-    transform: translate(0px, 0px);
     opacity: 1;
     transition: all ease-in-out 0.3s;
 }

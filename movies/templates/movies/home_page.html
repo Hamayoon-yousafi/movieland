@@ -92,16 +92,19 @@
                     <i class="fa-solid fa-angle-right text-lg"></i>
                 </button>
             </div>
-        {% else %}
+        {% elif request.user.is_authenticated and not request.user.profile.favorite_genre %}
             <div class="favorite-genre mt-5">
                 <h2 class="text-white text-center mb-4">What's your favorite genre?</h2>
                 <div class="genres m-auto w-50">
-                    <select class="form-control bg-dark text-white">
-                        <option value="" selected>Select...</option>
-                        {% for genre in genres %}
-                            <option value="{{ genre.id }}">{{ genre.name }}</option>
-                        {% endfor %}
-                    </select>
+                    <form action="{% url 'update-profile' %}" method="POST" onchange="this.submit()">
+                        {% csrf_token %}
+                        <select class="form-control bg-dark text-white" name="favorite_genre">
+                            <option value="" selected>Select...</option>
+                            {% for genre in genres %}
+                                <option value="{{ genre.id }}">{{ genre.name }}</option>
+                            {% endfor %}
+                        </select>
+                    </form>
                 </div>
             </div>
         {% endif %}
@@ -172,6 +175,10 @@
                 </button>
             </div>
         {% endif %}
+        
+        <div class="mt-5 text-center">
+            <a href="{% url 'movies' %}" class="btn btn-dark px-3">Browse all movies <i class="fa fa-arrow-rght"></i></a>
+        </div>
 
     </div>
     

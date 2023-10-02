@@ -23,6 +23,7 @@ class MoviesHomePage(TemplateView):
             'being_discussed': Movie.objects.annotate(num_reviews=Count('review')).order_by('-num_reviews', '-release_date')[:20],
             'popular': movies.order_by('-total_positive_votes', '-release_date')[:20],
             'genres': MovieGenre.objects.all(),
+            'movies_count': movies.count
         })
         return context
 

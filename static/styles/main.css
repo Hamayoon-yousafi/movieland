@@ -11,8 +11,17 @@ body {
     font-size: 26px;
 }
 
-.nav {
+.navbar-customization {
     position: absolute;
     background: #00000065;
     width: 100%;
+}
+
+footer {
+    position: static !important;
+    bottom: 0;
+}
+
+.footer-link {
+    font-size: 26px;
 }

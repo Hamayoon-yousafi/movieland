@@ -1,10 +1,10 @@
 from django.urls import reverse_lazy
-from django.shortcuts import redirect
 from django.contrib.auth.views import LoginView, LogoutView
 from django.views.generic import CreateView
 from .forms import UserRegistrationForm
 from django.contrib.auth import login
-
+from django.shortcuts import redirect
+from movies.models import MovieGenre
 
 class Login(LoginView):
     template_name = 'user/login.html'
@@ -32,3 +32,11 @@ class RegistrationView(CreateView):
         response = super().form_valid(form)
         login(self.request, self.object)
         return response
+    
+
+def update_user_genre(request):
+    if request.method == 'POST':
+        profile = request.user.profile
+        profile.favorite_genre = MovieGenre.objects.get(id=request.POST.get('favorite_genre'))
+        profile.save()
+    return redirect('home-page')

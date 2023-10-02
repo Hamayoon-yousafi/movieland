@@ -7,7 +7,6 @@ let prevScrollLeft = false;
 function targetCarousel(carouselID){
     if (!carousel) {
         carousel = document.getElementById(carouselID);
-        console.log(carousel);
         carousel.addEventListener('mousedown', dragStart)
         carousel.addEventListener('touchstart', dragStart)
         

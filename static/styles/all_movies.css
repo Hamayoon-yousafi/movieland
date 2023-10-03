@@ -1,0 +1,33 @@
+.movie-card-story {
+    background: #0000009e;
+    position: absolute;
+    top: 0%;
+    left: 0%;
+    width: 100%;
+    text-align: justify;
+    padding: 15px;
+    height: 100%;
+    color: white;
+    opacity: 0;
+    transition: all ease-in-out 0.3s;
+    cursor: pointer;
+}
+
+.movies:hover .movie-card-story {
+    opacity: 1;
+    transition: all ease-in-out 0.3s;
+}
+
+.page-link {
+    cursor: pointer !important;
+}
+
+.custom-filter-dropdown-item:hover {
+    background-color: black !important;
+    cursor: pointer !important;
+}
+
+.card-custom-image-area{
+    width: 100%;
+    height: 420px;
+}

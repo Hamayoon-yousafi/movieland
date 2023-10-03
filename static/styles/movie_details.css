@@ -1,0 +1,16 @@
+.movie-cover {
+    height: 80vh;
+    background-attachment: fixed;
+    background-position: center;
+    background-size: cover !important;
+    position: relative;
+    z-index: -1000;
+}
+
+.movie-cover-img {
+    position: absolute;
+    top: 40%;
+    right: 67%;
+    width: 17%;
+    border-radius: 5px;
+}

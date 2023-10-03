@@ -61,4 +61,19 @@ function scrollCarousel(direction){
     } else {
         carousel.scrollLeft += carousel.clientWidth
     }
+} 
+
+function handle_params(param, value){
+    url = new URLSearchParams(window.location.search)
+    if (url.has(param)) {
+        url.set(param, value)
+    } else {
+        url.append(param, value)
+    }
+
+    window.location.replace(window.location.origin + window.location.pathname + '?' + url.toString())
+}
+
+function openMovie(url){
+    document.location.href = url;
 }

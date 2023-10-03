@@ -30,18 +30,25 @@ class MoviesHomePage(TemplateView):
 class MoviesList(ListView):
     model = Movie
     context_object_name = 'movies'
-    paginate_by = 20
+    paginate_by = 12
 
     def get_context_data(self, **kwargs):
         context = super(MoviesList, self).get_context_data(**kwargs)
         context.update({
-            'search': self.search
+            'search': self.search,
+            'decade': self.decade,
+            'upcoming': self.upcoming,
+            'current_month': self.current_month,
         })
         return context
 
     def get_queryset(self):
         self.search = self.request.GET.get('search', '').strip()
         self.upcoming = self.request.GET.get('upcoming', '').strip()
+        self.decade = self.request.GET.get('decade', '').strip()
+        self.current_month = self.request.GET.get('current_month', '').strip()
+        self.upcoming = True if self.upcoming == 'true' else False
+        self.current_month = True if self.current_month == 'true' else False
         
         query = super().get_queryset()
         if self.search:
@@ -54,6 +61,11 @@ class MoviesList(ListView):
             )
         if self.upcoming:
             query = query.filter(release_date__gt=date.today())
+        if self.decade:
+            self.decade = int(self.decade)
+            query = query.filter(release_date__year__range=[self.decade, self.decade + 9])
+        if self.current_month:
+            query = query.filter(release_date__year=datetime.now().year, release_date__month=datetime.now().month)
         return query
 
 

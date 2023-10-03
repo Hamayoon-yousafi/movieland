@@ -4,15 +4,13 @@
 
 
 {% block content %}
-    <h3>{{ movie.title }}</h3>
+    
+    <div class="movie-cover" style="background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url({{movie.thumbnail.url}})">
+        <img src="{{ movie.poster.url }}" class="movie-cover-img">
+    </div>
 
-    <div class="row">
+    <!-- <div class="row">
         <div class="col">
-            <video width="320" height="240" controls poster="{{ movie.thumbnail.url }}">
-                <source src="{{ movie.movie_file.url }}" type="video/mp4" >
-                Your browser does not support the video tag.
-            </video>
-        
             <a href="{% url 'movie-update' movie.id %}">Update</a>
             <form action="{% url 'movie-delete' movie.id %}" method="POST">
                 {% csrf_token %}
@@ -46,5 +44,5 @@
                 </p>
             {% endfor %}
         </div>
-    </div>
+    </div> -->
 {% endblock %}

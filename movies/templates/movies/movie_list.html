@@ -9,30 +9,137 @@
 
     <div class="container"> 
 
-        {% for movie in movies %}
-            {{ movie.title }}
-        {% endfor %}
+        <div class="filters-area mt-5 d-flex justify-content-center">
+            {% if upcoming %}
+                <button class="btn btn-secodnary bg-dark border me-3 text-white" onclick="handle_params('upcoming', 'false')">
+                    Upcoming <i class="fa-solid fa-circle-xmark ms-1"></i>
+                </button>
+            {% else %}
+                <button class="btn btn-secodnary bg-dark border-0 me-3 text-white" onclick="handle_params('upcoming', 'true')">
+                    Upcoming
+                </button>
+            {% endif %}
+            <div class="dropdown me-3">
+                <button class="btn btn-secondary border-0 dropdown-toggle bg-dark" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    {% if decade %}
+                        {{ decade }}s
+                    {% else %}
+                        Decades
+                    {% endif %}
+                </button>
+                <ul class="dropdown-menu bg-dark">
+                  <li><a class="dropdown-item custom-filter-dropdown-item text-white" onclick="handle_params('decade', '')">Clear</a></li>
+                  <li><a class="dropdown-item custom-filter-dropdown-item text-white" onclick="handle_params('decade', '1980')">1980s</a></li>
+                  <li><a class="dropdown-item custom-filter-dropdown-item text-white" onclick="handle_params('decade', '1990')">1990s</a></li>
+                  <li><a class="dropdown-item custom-filter-dropdown-item text-white" onclick="handle_params('decade', '2000')">2000s</a></li>
+                  <li><a class="dropdown-item custom-filter-dropdown-item text-white" onclick="handle_params('decade', '2010')">2010s</a></li>
+                  <li><a class="dropdown-item custom-filter-dropdown-item text-white" onclick="handle_params('decade', '2020')">2020s</a></li>
+                </ul>
+            </div>
+            {% if current_month %}
+                <button class="btn btn-secodnary bg-dark border me-3 text-white" onclick="handle_params('current_month', 'false')">
+                    {% now "F" %}'s <i class="fa-solid fa-circle-xmark ms-1"></i>
+                </button>
+            {% else %}
+                <button class="btn btn-secodnary bg-dark border-0 me-3 text-white" onclick="handle_params('current_month', 'true')">
+                    {% now "F" %}'s
+                </button>
+            {% endif %}
+        </div>
+
+        <div class="movies-area pt-2 d-flex flex-wrap">
+            {% if movies %}
+                {% for movie in movies %}
+                    <div class="card bg-dark movies m-2" style="width: 18rem;">
+                        <div class="card-custom-image-area" style="background: url({{movie.poster.url}}); background-size: cover; background-position: center;" alt="Card image cap" style="height: 400px;"></div>
+                        <div class="card-body">
+                            <p class="card-text text-white text-truncate">{{ movie.title }}</p>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div class="d-flex align-items-center">
+                                    <small class="color-darker me-2"><i class="fa-regular fa-heart"></i> {{ movie.total_positive_votes }}</small>
+                                    <small class="color-darker"><i class="fa-regular fa-thumbs-down"></i> {{ movie.total_negative_votes }}</small>
+                                </div>
+                                <small class="color-darker"><i class="fa-regular fa-calendar me-1"></i> {{ movie.release_date }}</small>
+                            </div>
+                        </div>
+                        <div class="movie-card-story" onclick="openMovie(`{% url 'movie-details' movie.id %}`)">
+                            <p class="carousel-item-text">
+                                {{ movie.story }}
+                            </p>
+                        </div>
+                    </div> 
+                {% endfor %}
+            {% else %}
+                <div class="d-flex w-100 pt-2 align-items-center flex-column">
+                    <h3 class="text-white">No movies were found for that search!</h3>
+                    <h1 class="text-white mt-3" style="font-size: 110px;"><i class="fa-solid fa-face-frown"></i></h1>
+                </div>
+            {% endif %}
+        </div> 
+
+        {% if page_obj.paginator.num_pages and page_obj.paginator.num_pages > 1 %}
+            <div class="mt-5 d-flex justify-content-center">
+                <nav aria-label="Page navigation example">
+                    <ul class="pagination">
+                        
+                        <!-- if pagination has previous -->
+                        {% if page_obj.has_previous %}
+                            <li class="page-item">
+                                <a class="page-link bg-dark text-white border-0" onclick="handle_params('page', '{{ page_obj.previous_page_number }}')" aria-label="Previous">
+                                <span aria-hidden="true">&laquo;</span>
+                                <span class="sr-only">Previous</span>
+                                </a>
+                            </li>
+                        {% endif %}
+
+                        <!-- if it is first page -->
+                        {% if not page_obj.has_previous %}
+                            <li class="page-item"><a class="page-link bg-white border-0">1</a></li>
+                            {% if not page_obj.paginator.num_pages < 2 %}
+                                <li class="page-item"><a class="page-link bg-dark text-white border-0" onclick="handle_params('page', '2')">2</a></li>
+                            {% endif %}
+                            {% if not page_obj.paginator.num_pages < 3 %}
+                                <li class="page-item"><a class="page-link bg-dark text-white border-0" onclick="handle_params('page', '3')">3</a></li>
+                            {% endif %}
+                        {% endif %}
+
+                        <!-- if it is last page -->
+                        {% if not page_obj.has_next %}
+                            {% with third_last=page_obj.paginator.num_pages|add:-2 %}
+                                {% if not third_last <= 0 %}
+                                    <li class="page-item"><a class="page-link bg-dark text-white border-0" onclick="handle_params('page', '{{ third_last }}')">{{ third_last }}</a></li>
+                                {% endif %}
+                            {% endwith %}
+                            {% with second_last=page_obj.paginator.num_pages|add:-1 %}
+                                {% if not second_last <= 0 %}
+                                    <li class="page-item"><a class="page-link bg-dark text-white border-0" onclick="handle_params('page', '{{ second_last }}')">{{ second_last }}</a></li>
+                                {% endif %}
+                            {% endwith %}
+                            <li class="page-item"><a class="page-link bg-white border-0">{{ page_obj.paginator.num_pages }}</a></li>
+                        {% endif %}
+
+                        <!-- if it is a page that is neither last nor first -->
+                        {% if page_obj.has_next and page_obj.has_previous %} 
+                            <li class="page-item"><a class="page-link bg-dark text-white border-0" onclick="handle_params('page', '{{ page_obj.previous_page_number }}')">{{ page_obj.previous_page_number }}</a></li>
+                            <li class="page-item"><a class="page-link bg-white border-0" onclick="handle_params('page', '{{ page_obj.number }}')">{{ page_obj.number }}</a></li>
+                            <li class="page-item"><a class="page-link bg-dark text-white border-0" onclick="handle_params('page', '{{ page_obj.next_page_number }}')">{{ page_obj.next_page_number }}</a></li>
+                        {% endif %}
+        
+                        <!-- if it has next page -->
+                        {% if page_obj.has_next %}
+                            <li class="page-item">
+                                <a class="page-link bg-dark text-white border-0" onclick="handle_params('page', '{{ page_obj.next_page_number }}')" aria-label="Next">
+                                <span aria-hidden="true">&raquo;</span>
+                                <span class="sr-only">Next</span>
+                                </a>
+                            </li>
+                        {% endif %}
+        
+                    </ul>
+                </nav>
+            </div>
+        {% endif %}
 
     </div>
 
-    <a href="{% url 'movies' %}?upcoming=True" class="{% if upcoming %} bg-danger {% endif %}">Upcoming</a>
-    <a href="{% url 'movies' %}">X</a>
-
-    <div class="pagination">
-        <span class="step-links">
-            {% if page_obj.has_previous %}
-                <a href="?page=1">&laquo; first</a>
-                <a href="?page={{ page_obj.previous_page_number }}">previous</a>
-            {% endif %}
-    
-            <span class="current">
-                Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
-            </span>
-    
-            {% if page_obj.has_next %}
-                <a href="?page={{ page_obj.next_page_number }}">next</a>
-                <a href="?page={{ page_obj.paginator.num_pages }}">last &raquo;</a>
-            {% endif %}
-        </span>
-    </div>
 {% endblock %}

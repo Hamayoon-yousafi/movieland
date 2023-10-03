@@ -14,7 +14,7 @@
             <div id="carouselExampleCaptions" class="carousel slide" data-bs-ride="carousel">
                 <div class="carousel-inner">
                     {% for movie in upcoming_movies  %}
-                        <div class="carousel-item {% if movie == upcoming_movies.first %} active {% endif %}">
+                        <div class="carousel-item pointer {% if movie == upcoming_movies.first %} active {% endif %}" onclick="openMovie(`{% url 'movie-details' movie.id %}`)">
                             <img src="{{ movie.thumbnail.url }}" class="carousel-img d-block w-100" alt="...">
                             <div class="carousel-caption d-none d-md-block">
                                 <h5>{{ movie.title }}</h5>
@@ -39,7 +39,7 @@
             <h2 class="text-white text-center mb-4">{% now "F" %}'s top</h2>
             <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
                 {% for movie in top_this_month %}
-                    <div class="col">
+                    <div class="col pointer" onclick="openMovie(`{% url 'movie-details' movie.id %}`)">
                         <div class="card shadow-sm border-0">
                         <img class="bd-placeholder-img card-img-top" width="100%" height="225" src="{{ movie.thumbnail.url }}" role="img"/>
             
@@ -69,7 +69,7 @@
                 </button>
                 <div id="forYouCarousel" class="custom-carousel">
                     {% for movie in movies_for_you %}
-                        <div class="custom-carousel-item">
+                        <div class="custom-carousel-item" onclick="openMovie(`{% url 'movie-details' movie.id %}`)">
                             <div class="carousel-item-img">
                                 <img src="{{ movie.poster.url }}">
                             </div>
@@ -118,7 +118,7 @@
                 </button>
                 <div id="being-discussed" class="custom-carousel">
                     {% for movie in being_discussed %}
-                        <div class="custom-carousel-item">
+                        <div class="custom-carousel-item" onclick="openMovie(`{% url 'movie-details' movie.id %}`)">
                             <div class="carousel-item-img">
                                 <img src="{{ movie.poster.url }}">
                             </div>
@@ -151,7 +151,7 @@
                 </button>
                 <div id="popular" class="custom-carousel">
                     {% for movie in popular %}
-                        <div class="custom-carousel-item">
+                        <div class="custom-carousel-item" onclick="openMovie(`{% url 'movie-details' movie.id %}`)">
                             <div class="carousel-item-img">
                                 <img src="{{ movie.poster.url }}">
                             </div>

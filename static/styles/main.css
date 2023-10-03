@@ -2,6 +2,13 @@
 
 body {
     background-color: black !important;
+    min-height: 100vh !important;
+    display: flex;
+    flex-direction: column;
+}
+
+main {
+    flex-grow: 1;
 }
 
 #logo {

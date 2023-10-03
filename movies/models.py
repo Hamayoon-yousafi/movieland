@@ -26,6 +26,9 @@ class Movie(models.Model):
     def __str__(self):
         return self.title
 
+    class Meta:
+        ordering = ('-release_date',)
+
 
 class Review(models.Model):
     user_id = models.ForeignKey(User, on_delete=models.CASCADE)

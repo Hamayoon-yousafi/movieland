@@ -1,16 +1,46 @@
-.movie-cover {
+.movie-details-page-cover {
     height: 80vh;
+    padding-top: 100px;
+    background: linear-gradient(rgba(0, 0, 0, 0.802), rgba(0, 0, 0, 0.778)), url(../img/movie_details_background.jpg);
     background-attachment: fixed;
     background-position: center;
-    background-size: cover !important;
-    position: relative;
-    z-index: -1000;
 }
 
-.movie-cover-img {
-    position: absolute;
-    top: 40%;
-    right: 67%;
-    width: 17%;
+.movie-poster {
+    height: 580px;
+    width: 30%;
+    background-position: center;
+    background-size: cover;
     border-radius: 5px;
+}
+
+.movie-details { 
+    margin-left: 30px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 70%;
+}
+
+.votes {
+    font-size: 20px;
+}
+
+.release-date {
+    font-size: 20px;
+}
+
+.movie-story {
+    width: 70%;
+    text-align: justify;
+}
+
+
+
+.trailer {
+    width: 100%;
+    /* height: 729px; */
+    background: red;
+    padding: 0px;
+    margin-top: 100px;
 }

@@ -5,8 +5,52 @@
 
 {% block content %}
     
-    <div class="movie-cover" style="background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url({{movie.thumbnail.url}})">
-        <img src="{{ movie.poster.url }}" class="movie-cover-img">
+
+    <div class="movie-details-page-cover">
+        <div class="container">
+            <div class="movie-information d-flex">
+                <div class="movie-poster" style="background-image: url({{movie.poster.url}})"></div>
+                <div class="movie-details">
+                    <h1 class="text-white mb-0">
+                        {{ movie.title }}
+                    </h1>
+                    <div class="genres mt-3">
+                        {% for genre in movie.genre_ids.all %}
+                            <span class="badge text-bg-secondary p-2 me-1">{{ genre.name }}</span>
+                        {% endfor %}
+                    </div>
+                    <div class="text-white mt-3 release-date">
+                        <i class="me-2 fa-regular fa-calendar"></i> {{ movie.release_date }}
+                    </div>
+                    <div class="votes mt-3 text-white">
+                        <small class="me-2">
+                            <i class="fa-regular fa-heart"></i> {{ movie.total_positive_votes }}
+                        </small>
+                        <small>
+                            <i class="fa-regular fa-thumbs-down"></i> {{ movie.total_positive_votes }}
+                        </small>
+                    </div>
+                    <div class="movie-story mt-3 text-white">
+                        <p class="mb-0">{{ movie.story }}</p>
+                    </div>
+                    <div class="tags mt-3">
+                        {% for tag in movie.tag_ids.all %}
+                            <span class="badge text-bg-dark p-2 me-1">{{ tag.name }}</span>
+                        {% endfor %}
+                    </div>
+                    <div class="buttons mt-3">
+                        <button class="btn me-1 btn-primary">Download</button>
+                        <button class="btn me-1 btn-success">Watch</button>
+                        <button class="btn me-1 btn-info">Add to Watchlist <i class="ms-1 fa-regular fa-bookmark"></i></button>
+                    </div>
+                </div> 
+            </div>
+        </div>
+    </div>
+    <div class="container">
+        {% if movie.trailer %}
+                    <video src="{{ movie.trailer.url }}" class="trailer" autoplay controls></video>
+                {% endif %}
     </div>
 
     <!-- <div class="row">

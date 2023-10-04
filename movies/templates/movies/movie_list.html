@@ -51,7 +51,9 @@
             {% if movies %}
                 {% for movie in movies %}
                     <div class="card bg-dark movies m-2" style="width: 18rem;">
-                        <div class="card-custom-image-area" style="background: url({{movie.poster.url}}); background-size: cover; background-position: center;" alt="Card image cap" style="height: 400px;"></div>
+                        <div class="card-custom-image-area" style="height: 400px;">
+                            <img src="{{ movie.poster.url }}" class="object-cover-center"/>
+                        </div>
                         <div class="card-body">
                             <p class="card-text text-white text-truncate">{{ movie.title }}</p>
                             <div class="d-flex justify-content-between align-items-center">

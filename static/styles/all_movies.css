@@ -31,3 +31,8 @@
     width: 100%;
     height: 420px;
 }
+
+.card-custom-image-area img {
+    width: 100%;
+    height: 100%;
+}

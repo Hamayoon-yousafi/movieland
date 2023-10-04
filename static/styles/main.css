@@ -32,3 +32,8 @@ footer {
 .footer-link {
     font-size: 26px;
 }
+
+.object-cover-center {
+    object-fit: cover;
+    object-position: center;
+}

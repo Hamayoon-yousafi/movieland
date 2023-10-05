@@ -37,10 +37,66 @@
     text-align: justify;
 }
 
+.movie-trailer-area {
+    position: relative;
+}
+
 .trailer {
     width: 100%;
-    /* height: 729px; */
     background: red;
     padding: 0px;
-    margin-top: 100px;
+}
+
+.video-control {
+    position: absolute;
+    top: 29%;
+    color: #ffffffd1 !important;
+    left: 39%;
+    font-size: 10vw !important;
+    cursor: pointer !important;
+    z-index: 1000;
+    border: none !important;
+    transition: all 1s ease;
+} 
+
+#movie-cast {
+    overflow-x: auto;
+    white-space: nowrap;
+    width: 100%;
+    display: flex;
+    cursor: grab;
+    scroll-behavior: smooth;
+}
+
+.hide {
+    animation: fade-away .5s ease forwards;
+}
+
+.show {
+    animation: fade-in .5s ease forwards;
+}
+
+@keyframes fade-away {
+    0% {
+        transform: scale(1);
+        opacity: 1;
+    }
+
+    100% {
+        transform: scale(1.3);
+        opacity: 0;
+        pointer-events: none;
+    }
+}
+
+@keyframes fade-in {
+    0% {
+        opacity: 0;
+        transform: scale(1.3);
+    }
+
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
 }

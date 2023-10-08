@@ -4,6 +4,11 @@
     background: linear-gradient(rgba(0, 0, 0, 0.802), rgba(0, 0, 0, 0.778)), url(../img/movie_details_background.jpg);
     background-attachment: fixed;
     background-position: center;
+    position: absolute;
+    top: 0%;
+    right: 0%;
+    left: 0%;
+    z-index: -100000;
 }
 
 .movie-poster {

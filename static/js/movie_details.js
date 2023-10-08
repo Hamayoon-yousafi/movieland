@@ -4,35 +4,35 @@ let pause = document.querySelector('.video-pause');
 
 
 function playVideo() {
-    play.classList.remove('show');
-    play.classList.add('hide');
+    play.classList.remove('show-video-btn');
+    play.classList.add('hide-video-btn');
     
-    pause.classList.remove('hide');
-    pause.classList.add('show');
+    pause.classList.remove('hide-video-btn');
+    pause.classList.add('show-video-btn');
     setTimeout(() => {
-        pause.classList.remove('show');
-        pause.classList.add('hide');
+        pause.classList.remove('show-video-btn');
+        pause.classList.add('hide-video-btn');
     }, 1000);
     trailer.play();
 }
 
 function pauseVideo() {
-    pause.classList.remove('show');
-    pause.classList.add('hide');
+    pause.classList.remove('show-video-btn');
+    pause.classList.add('hide-video-btn');
     
-    play.classList.remove('hide');
-    play.classList.add('show');
+    play.classList.remove('hide-video-btn');
+    play.classList.add('show-video-btn');
 
     trailer.pause();
 }
 
 function hoverOverTrailer(){
-    if(!trailer.paused && !pause.classList.contains('show')){
-        pause.classList.remove('hide');
-        pause.classList.add('show');
+    if(!trailer.paused && !pause.classList.contains('show-video-btn')){
+        pause.classList.remove('hide-video-btn');
+        pause.classList.add('show-video-btn');
         setTimeout(() => {
-            pause.classList.remove('show');
-            pause.classList.add('hide');
+            pause.classList.remove('show-video-btn');
+            pause.classList.add('hide-video-btn');
         }, 1000);
     }
 }

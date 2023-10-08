@@ -52,7 +52,7 @@
             <button class="btn video-control video-play" onclick="playVideo(this)">
                 <i class="fa-regular fa-circle-play"></i>
             </button>
-            <button class="btn video-control video-pause hide" id="pause" onclick="pauseVideo(this)">
+            <button class="btn video-control video-pause hide-video-btn" id="pause" onclick="pauseVideo(this)">
                 <i class="fa-regular fa-circle-pause"></i>
             </button>
             <video class="trailer" poster="{{ movie.thumbnail.url }}">
@@ -86,10 +86,10 @@
         {% endif %}
 
         <div class="mt-5 reviews">
-            <h2 class="text-white text-center mb-4 mt-5">Reviews</h2> 
+            <h2 class="text-white text-center mb-4">Reviews</h2> 
             
-            <div class="write-review mb-5">
-                {% if not request.user.id in reviewers and request.user.is_authenticated %}
+            {% if not request.user.id in reviewers and request.user.is_authenticated %}
+                <div class="write-review mb-5">
                     <form action="{% url 'review-create' movie.id %}" method="POST">
                         {% csrf_token %}
                         <div class="mb-3">
@@ -100,8 +100,8 @@
                         </div>
                         <input type="submit" class="btn btn-secondary mt-3" value="Add Review">
                     </form>
-                {% endif %}
-            </div>
+                </div>
+            {% endif %}
 
             <div class="reviews-area mt-3">
                 {% for review in reviews %}

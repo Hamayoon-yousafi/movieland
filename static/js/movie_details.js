@@ -26,8 +26,7 @@ function pauseVideo() {
     trailer.pause();
 }
 
-
-trailer.addEventListener('mousemove', function(){
+function hoverOverTrailer(){
     if(!trailer.paused && !pause.classList.contains('show')){
         pause.classList.remove('hide');
         pause.classList.add('show');
@@ -36,4 +35,7 @@ trailer.addEventListener('mousemove', function(){
             pause.classList.add('hide');
         }, 1000);
     }
-})
+}
+
+trailer.addEventListener('mousemove', hoverOverTrailer)
+trailer.addEventListener('touch', hoverOverTrailer)

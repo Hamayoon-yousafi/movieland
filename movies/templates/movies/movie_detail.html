@@ -29,7 +29,7 @@
                             <i class="fa-regular fa-heart"></i> {{ movie.total_positive_votes }}
                         </small>
                         <small>
-                            <i class="fa-regular fa-thumbs-down"></i> {{ movie.total_positive_votes }}
+                            <i class="fa-regular fa-thumbs-down"></i> {{ movie.total_negative_votes }}
                         </small>
                     </div>
                     <div class="movie-story mt-3 text-white">
@@ -66,7 +66,7 @@
         {% endif %}
 
         {% if movie.cast_ids %}
-            <div class="carousel-area mt-5">
+            <div class="carousel-area mt-5 mb-5">
                 <h2 class="text-white text-center mb-4">Top Cast</h2> 
                 <div id="movie-cast">
                     {% for cast in movie.cast_ids.all %}
@@ -86,43 +86,53 @@
                     {% endfor %}
                 </div> 
             </div> 
-        {% endif %} 
-    </div>
+        {% endif %}
 
-    <!-- <div class="row">
-        <div class="col">
-            <a href="{% url 'movie-update' movie.id %}">Update</a>
-            <form action="{% url 'movie-delete' movie.id %}" method="POST">
-                {% csrf_token %}
-                <input type="submit" value="Delete {{ movie.title }}">
-            </form>
-        </div>
-        <div class="col">
-            {% if request.user.id in reviewers %}
-                <p>You have reviewed this movie.</p> 
-            {% elif not request.user.is_authenticated %}
-                <p>Login to leave a review.</p>
-            {% else %}
-                <form action="{% url 'review-create' movie.id %}" method="POST">
-                    {% csrf_token %}
-                    {{ review_form.as_p }}
-                    <input type="submit" name="" value="Add Review">
-                </form>
-            {% endif %}
+        <div class="mt-5 reviews">
+            <h2 class="text-white text-center mb-4 mt-5">Reviews</h2> 
             
-            {% for review in reviews %}
-                <p>
-                    <strong>{{ review.user_id.username }}</strong>, {{ review.created }}
-                    <br>{{ review.body }} - {{ review.vote }}
-                    <br/>
-                    {% if review.user_id == request.user or request.user.is_superuser %}
-                        <form action="{% url 'review-delete' movie_id=movie.id pk=review.id %}" method="POST">
-                            {% csrf_token %}
-                            <input type="submit" value="Delete">
-                        </form>
+            <div class="write-review mb-5">
+                {% if not request.user.id in reviewers and request.user.is_authenticated %}
+                    <form action="{% url 'review-create' movie.id %}" method="POST">
+                        {% csrf_token %}
+                        <div class="mb-3">
+                            {{ review_form.body }}
+                        </div>
+                        <div class="">
+                            {{ review_form.vote }}
+                        </div>
+                        <input type="submit" class="btn btn-secondary mt-3" value="Add Review">
+                    </form>
+                {% endif %}
+            </div>
+
+            <div class="reviews-area mt-3">
+                {% for review in reviews %}
+                    {% if review.body %}
+                        <div class="review d-flex align-items-center mb-5">
+                            <div class="reviewer-picture-area me-3">
+                                <img src="{{ review.user_id.profile.get_profile_picture }}" class="reviewer-img"/>
+                            </div>
+                            <div class="review-body">
+                                <div class="review-info d-flex align-items-center">
+                                    <h6 class="me-2 mb-0">@{{ review.user_id.username }}</h6>
+                                    <span class="time-diff">{{ review.created|timesince }} ago</span>
+                                    {% if review.user_id == request.user or request.user.is_superuser %}
+                                        <form action="{% url 'review-delete' movie_id=movie.id pk=review.id %}" class="ms-2" method="POST">
+                                            {% csrf_token %}
+                                            <button class="btn btn-danger px-2 py-0"><i class="fa-regular fa-trash-can"></i></button>
+                                        </form>
+                                    {% endif %}
+                                </div>
+                                <div class="review-text">
+                                    <p class="m-0 mt-1">{{ review.body }}</p>
+                                </div>
+                            </div>
+                        </div>
                     {% endif %}
-                </p>
-            {% endfor %}
+                {% endfor %}
+            </div>
         </div>
-    </div> -->
+        
+    </div>
 {% endblock %}

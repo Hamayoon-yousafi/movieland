@@ -37,19 +37,34 @@ class Review(models.Model):
     vote = models.CharField(max_length=255, choices=VOTE_TYPE)
     created = models.DateTimeField(auto_now_add=True)
 
-    def save(self, *args, **kwargs):
-        if self.vote == 'up':
-            self.movie_id.total_positive_votes += 1
+    def update_movie_votes(self, review_being_created):
+        if review_being_created == True:
+            if self.vote == 'up':
+                self.movie_id.total_positive_votes += 1
+            else:
+                self.movie_id.total_negative_votes += 1
         else:
-            self.movie_id.total_negative_votes += 1
+            if self.vote == 'up':
+                if self.movie_id.total_positive_votes: self.movie_id.total_positive_votes -= 1
+            else:
+                if self.movie_id.total_negative_votes: self.movie_id.total_negative_votes -= 1
         self.movie_id.save()
+
+
+    def save(self, *args, **kwargs):
+        self.update_movie_votes(review_being_created=True)
         return super().save(*args, **kwargs)
+    
+    def delete(self, *args, **kwargs):
+        self.update_movie_votes(review_being_created=False)
+        return super().delete(*args, **kwargs)
 
     def __str__(self):
         return f'{self.vote} | {self.movie_id}'
     
     class Meta:
         unique_together = [['user_id', 'movie_id']]
+        ordering = ('-created',)
 
 
 class MovieGenre(models.Model):

@@ -43,8 +43,11 @@
 
 .trailer {
     width: 100%;
-    background: red;
     padding: 0px;
+}
+
+.review:last-child {
+    margin-bottom: 0px !important;
 }
 
 .video-control {
@@ -67,6 +70,33 @@
     cursor: grab;
     scroll-behavior: smooth;
 }
+
+.reviews {
+    color: white !important;
+}
+
+#review-body::placeholder {
+    color: rgb(118, 118, 118) !important;
+}
+
+.custom-review-input {
+    border: none !important;
+}
+
+.reviewer-img {
+    height: 50px;
+    border-radius: 100%;
+    object-fit: cover;
+    object-position: center;
+    width: 50px;
+}
+
+.time-diff {
+    font-weight: 300;
+    font-size: 15px;
+}
+
+
 
 .hide {
     animation: fade-away .5s ease forwards;

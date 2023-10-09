@@ -76,7 +76,15 @@ class MovieDetails(DetailView):
     def get_context_data(self, *args, **kwargs):
         context = super().get_context_data(*args, **kwargs)
         reviews = self.object.review_set.all()
-        context.update({'review_form': ReviewForm(), 'reviews': reviews, 'reviewers': reviews.values_list('user_id', flat=True)})
+        context.update({
+            'review_form': ReviewForm(), 
+            'reviews': reviews, 
+            'reviewers': reviews.values_list('user_id', flat=True),
+            'similar_movies': self.model.objects.all().filter(
+                tag_ids__in=self.get_object().tag_ids.all(), 
+                genre_ids__in=self.get_object().genre_ids.all()
+            ).exclude(id=self.get_object().id).distinct().order_by('release_date')[:4],
+        })
         return context
 
 class MovieCreate(LoginRequiredMixin, PermissionRequiredMixin, CreateView):

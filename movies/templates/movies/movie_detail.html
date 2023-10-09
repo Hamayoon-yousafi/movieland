@@ -64,7 +64,7 @@
 
         {% if movie.cast_ids %}
             <div class="carousel-area mt-5 mb-5">
-                <h2 class="text-white text-center mb-4">Top Cast</h2> 
+                <h4 class="text-white text-center mb-4">Top Cast</h4> 
                 <div id="movie-cast">
                     {% for cast in movie.cast_ids.all %}
                         <div class="custom-carousel-item" onclick="">
@@ -85,49 +85,66 @@
             </div> 
         {% endif %}
 
-        <div class="mt-5 reviews">
-            <h2 class="text-white text-center mb-4">Reviews</h2> 
-            
-            {% if not request.user.id in reviewers and request.user.is_authenticated %}
-                <div class="write-review mb-5">
-                    <form action="{% url 'review-create' movie.id %}" method="POST">
-                        {% csrf_token %}
-                        <div class="mb-3">
-                            {{ review_form.body }}
-                        </div>
-                        <div class="">
-                            {{ review_form.vote }}
-                        </div>
-                        <input type="submit" class="btn btn-secondary mt-3" value="Add Review">
-                    </form>
-                </div>
-            {% endif %}
-
-            <div class="reviews-area mt-3">
-                {% for review in reviews %}
-                    {% if review.body %}
-                        <div class="review d-flex align-items-center mb-5">
-                            <div class="reviewer-picture-area me-3">
-                                <img src="{{ review.user_id.profile.get_profile_picture }}" class="reviewer-img"/>
-                            </div>
-                            <div class="review-body">
-                                <div class="review-info d-flex align-items-center">
-                                    <h6 class="me-2 mb-0">@{{ review.user_id.username }}</h6>
-                                    <span class="time-diff">{{ review.created|timesince }} ago</span>
-                                    {% if review.user_id == request.user or request.user.is_superuser %}
-                                        <form action="{% url 'review-delete' movie_id=movie.id pk=review.id %}" class="ms-2" method="POST">
-                                            {% csrf_token %}
-                                            <button class="btn btn-danger px-2 py-0"><i class="fa-regular fa-trash-can"></i></button>
-                                        </form>
-                                    {% endif %}
+        <div class="row mt-5">
+            <div class="col-md-4 pe-4">
+                <div class="reviews">
+                    <h4 class="text-white text-center mb-4">Reviews</h4> 
+                    
+                    {% if not request.user.id in reviewers and request.user.is_authenticated %}
+                        <div class="write-review mb-5">
+                            <form action="{% url 'review-create' movie.id %}" method="POST">
+                                {% csrf_token %}
+                                <div class="mb-3">
+                                    {{ review_form.body }}
                                 </div>
-                                <div class="review-text">
-                                    <p class="m-0 mt-1">{{ review.body }}</p>
+                                <div class="">
+                                    {{ review_form.vote }}
                                 </div>
-                            </div>
+                                <input type="submit" class="btn btn-secondary mt-3" value="Add Review">
+                            </form>
                         </div>
                     {% endif %}
-                {% endfor %}
+        
+                    <div class="reviews-area mt-3">
+                        {% for review in reviews %}
+                            {% if review.body %}
+                                <div class="review d-flex align-items-center mb-5">
+                                    <div class="reviewer-picture-area me-3">
+                                        <img src="{{ review.user_id.profile.get_profile_picture }}" class="reviewer-img"/>
+                                    </div>
+                                    <div class="review-body">
+                                        <div class="review-info d-flex align-items-center">
+                                            <h6 class="me-2 mb-0">@{{ review.user_id.username }}</h6>
+                                            <span class="time-diff">{{ review.created|timesince }} ago</span>
+                                            {% if review.user_id == request.user or request.user.is_superuser %}
+                                                <form action="{% url 'review-delete' movie_id=movie.id pk=review.id %}" class="ms-2" method="POST">
+                                                    {% csrf_token %}
+                                                    <button class="btn btn-danger px-2 py-0"><i class="fa-regular fa-trash-can"></i></button>
+                                                </form>
+                                            {% endif %}
+                                        </div>
+                                        <div class="review-text">
+                                            <p class="m-0 mt-1">{{ review.body }}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            {% endif %}
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-8">
+                <div class="similar-movies-area">
+                    <h4 class="text-white text-center mb-4">Similar Movies</h4>
+                    <div class="similar-movies d-flex similar-movies d-flex justify-content-center flex-wrap">
+                        {% for similar_movie in similar_movies %}
+                            <div class="similar-movie ms-2 mt-2 bg-dark pointer" onclick="openMovie(`{% url 'movie-details' similar_movie.id %}`)">
+                                <img src="{{ similar_movie.poster.url }}" width="200" height="250">
+                                <h6 class="text-white ms-2 mt-2 text-truncate">{{ similar_movie.title }}</h6>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
             </div>
         </div>
     </div>

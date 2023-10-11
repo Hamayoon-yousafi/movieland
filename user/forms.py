@@ -12,7 +12,7 @@ class UserRegistrationForm(UserCreationForm):
 
         for field_name, label in LABELS.items():
             self.fields[field_name].label = label
-            self.fields[field_name].widget.attrs.update({'class': CSS_CLASS, 'placeholder': label})
+            self.fields[field_name].widget.attrs.update({'class': CSS_CLASS, 'placeholder': label, 'autofocus': False})
 
     class Meta:
         model = User

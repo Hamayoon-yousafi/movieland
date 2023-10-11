@@ -6,7 +6,6 @@
             <form method="POST">
                 {% csrf_token %}
                 <h1 class="mb-4 text-white text-center" id="logo">Movieland <i class="fa-solid fa-film"></i></h1>
-                <h1 class="h3 mb-3 fw-normal">Please log in</h1> 
                 {% for field in form %}
                     <div class="form-floating">
                         {{ field }}

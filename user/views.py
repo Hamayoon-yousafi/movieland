@@ -5,16 +5,18 @@ from .forms import UserRegistrationForm
 from django.contrib.auth import login
 from django.shortcuts import redirect
 from movies.models import MovieGenre
+from .forms import CustomLoginForm
 
 class Login(LoginView):
     template_name = 'user/login.html'
     redirect_authenticated_user = True
+    form_class = CustomLoginForm
 
     def get_success_url(self):
         next_page = self.request.GET.get('next')
         if next_page:
             return next_page
-        return reverse_lazy('movies')
+        return reverse_lazy('movies') 
     
 
 class Logout(LogoutView):

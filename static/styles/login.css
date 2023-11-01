@@ -48,3 +48,7 @@
     border-left: 15px solid transparent;
     border-right: 15px solid transparent;
 }
+
+.auth-link {
+    color: white !important;
+}

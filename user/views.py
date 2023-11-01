@@ -16,7 +16,7 @@ class Login(LoginView):
         next_page = self.request.GET.get('next')
         if next_page:
             return next_page
-        return reverse_lazy('movies') 
+        return reverse_lazy('home-page')
     
 
 class Logout(LogoutView):

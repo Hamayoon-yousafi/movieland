@@ -74,6 +74,6 @@ function handle_params(param, value){
     window.location.replace(window.location.origin + window.location.pathname + '?' + url.toString())
 }
 
-function openMovie(url){
+function openURL(url){
     document.location.href = url;
 }

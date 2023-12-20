@@ -64,7 +64,7 @@
                                 <small class="color-darker"><i class="fa-regular fa-calendar me-1"></i> {{ movie.release_date }}</small>
                             </div>
                         </div>
-                        <div class="movie-card-story" onclick="openMovie(`{% url 'movie-details' movie.id %}`)">
+                        <div class="movie-card-story" onclick="openURL(`{% url 'movie-details' movie.id %}`)">
                             <p class="carousel-item-text">
                                 {{ movie.story }}
                             </p>

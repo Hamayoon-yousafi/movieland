@@ -60,4 +60,8 @@ footer {
   /* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
     background: #555;
-}  
+}
+
+.bold-title {
+    font-weight: 600 !important;
+}

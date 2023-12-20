@@ -1,0 +1,9 @@
+.quote-card {
+    background: #00000063 !important;
+    border: solid 1px #434343 !important;
+}
+
+.quote-card-header {
+    background: #373737e0 !important;
+    font-weight: 500;
+}

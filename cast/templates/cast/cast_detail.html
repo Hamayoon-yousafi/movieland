@@ -62,21 +62,23 @@
             </div>
         </div>
         
-        <div class="row mt-3">
-            <div class="col-12">
-                <div class="card quote-card">
-                    <div class="card-header quote-card-header text-white">
-                      Quote
-                    </div>
-                    <div class="card-body">
-                      <blockquote class="blockquote mb-0">
-                        <p class="text-white">{{ cast.quote }}</p>
-                        <footer class="blockquote-footer text-white"><cite title="Source Title">{{ cast.name }}</cite></footer>
-                      </blockquote>
+        {% if cast.quote %}
+            <div class="row mt-3">
+                <div class="col-12">
+                    <div class="card quote-card">
+                        <div class="card-header quote-card-header text-white">
+                        Quote
+                        </div>
+                        <div class="card-body">
+                        <blockquote class="blockquote mb-0">
+                            <p class="text-white">{{ cast.quote }}</p>
+                            <footer class="blockquote-footer text-white"><cite title="Source Title">{{ cast.name }}</cite></footer>
+                        </blockquote>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
+        {% endif %}
 
         {% if cast.images.all %}
             <div id="castImages" class="carousel slide mt-5" data-bs-ride="castImages">

@@ -22,3 +22,6 @@ class Cast(models.Model):
 class CastImage(models.Model):
     image = models.ImageField(upload_to='cast_extra_images')
     cast_id = models.ForeignKey(Cast, on_delete=models.CASCADE, related_name='images')
+
+    def __str__(self):
+        return self.cast_id.name

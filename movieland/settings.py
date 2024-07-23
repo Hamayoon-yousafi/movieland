@@ -85,6 +85,10 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'movieland',
+        'USER': 'hamay',
+        'PASSWORD': 123,
+        'HOST': 'localhost',
+        'PORT': '5432',
     }
 }
 

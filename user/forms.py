@@ -1,4 +1,5 @@
-from typing import Any
+from django import forms
+from .models import Profile
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 
@@ -18,6 +19,17 @@ class UserRegistrationForm(UserCreationForm):
         model = User
         fields = ('username', 'email')
 
+
+class ProfileUpdateForm(forms.ModelForm):
+    class Meta:
+        model = Profile
+        fields = ('profile_picture', 'favorite_genre')
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        
+        self.fields['profile_picture'].widget.attrs.update({'class': 'form-control bg-dark text-white'})
+        self.fields['favorite_genre'].widget.attrs.update({'class': 'form-select bg-dark text-white'})
 
 class CustomLoginForm(AuthenticationForm):
     def __init__(self, *args, **kwargs):

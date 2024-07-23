@@ -1,11 +1,15 @@
+from django.db.models.base import Model as Model
+from django.db.models.query import QuerySet
 from django.urls import reverse_lazy
 from django.contrib.auth.views import LoginView, LogoutView
+from django.views.generic.edit import UpdateView
 from django.views.generic import CreateView
 from .forms import UserRegistrationForm
 from django.contrib.auth import login
 from django.shortcuts import redirect
 from movies.models import MovieGenre
-from .forms import CustomLoginForm
+from .models import Profile
+from .forms import CustomLoginForm, ProfileUpdateForm
 
 class Login(LoginView):
     template_name = 'user/login.html'
@@ -35,6 +39,15 @@ class RegistrationView(CreateView):
         login(self.request, self.object)
         return response
     
+
+class UpdateProfile(UpdateView):
+    model = Profile
+    form_class = ProfileUpdateForm
+    template_name = 'user/profile.html' 
+    success_url = '/user/profile'
+
+    def get_object(self):
+        return Profile.objects.get(user=self.request.user)
 
 def update_user_genre(request):
     if request.method == 'POST':

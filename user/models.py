@@ -13,5 +13,6 @@ class Profile(models.Model):
             return self.profile_picture.url
         else:
             return '/static/img/blank_profile.jpg'
-    # def __str__(self):
-    #     return self.user
+    
+    def __str__(self):
+        return str(self.user.username)

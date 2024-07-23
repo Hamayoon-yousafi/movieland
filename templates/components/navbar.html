@@ -10,7 +10,15 @@
                         <i class="fa-solid fa-user me-2"></i> {{ request.user.username }}
                     </a>
                     <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="navbarDarkDropdownMenuLink">
-                        <li><a class="dropdown-item" href="{% url 'logout' %}">Logout</a></li>
+                        <li>
+                            <a class="dropdown-item" href="{% url 'profile' %}">Profile</a>
+                        </li>
+                        <li>
+                            <form method="post" action="{% url 'logout' %}">
+                                {% csrf_token %}
+                                <button class="dropdown-item" type="submit">Logout</button>
+                            </form>
+                        </li>
                     </ul>
                     {% if request.user.is_superuser %}
                         <a class="nav-link dropdown-toggle text-white" href="#" id="navbarDarkDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
